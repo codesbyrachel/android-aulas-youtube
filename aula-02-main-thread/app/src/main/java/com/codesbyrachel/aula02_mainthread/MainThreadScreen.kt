@@ -56,13 +56,13 @@ fun MainThreadScreen(modifier: Modifier = Modifier) {
 
                     withContext(Dispatchers.IO) {
                         delay(5000)
-                        Toast
-                            .makeText(
-                                context,
-                                "Dados recebidos com sucesso!",
-                                Toast.LENGTH_SHORT,
-                            ).show()
                     }
+                    Toast
+                        .makeText(
+                            context,
+                            "Dados recebidos com sucesso!",
+                            Toast.LENGTH_SHORT,
+                        ).show()
 
                     isLoading = false
                 }
