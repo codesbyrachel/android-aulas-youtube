@@ -41,7 +41,15 @@ fun MainThreadScreen(modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
-                // TODO
+                status = "Buscando dados ..."
+                isLoading = true
+
+                // bloqueando a Main Thread
+                Thread.sleep(5000)
+
+                status = "Dados recebidos com sucesso!"
+                isLoading = false
+
             },
             enabled = !isLoading,
         ) {
