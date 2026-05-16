@@ -13,17 +13,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun MainThreadScreen(modifier: Modifier = Modifier) {
 
     var status by remember { mutableStateOf("Aguardando...") }
     var isLoading by remember { mutableStateOf(false) }
+
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier =
@@ -41,15 +48,13 @@ fun MainThreadScreen(modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
-                status = "Buscando dados ..."
-                isLoading = true
+                scope.launch {
+                    status = "Buscando dados ..."
+                    isLoading = true
 
-                // bloqueando a Main Thread
-                Thread.sleep(5000)
-
-                status = "Dados recebidos com sucesso!"
-                isLoading = false
-
+                    status = fetchDataFromNetwork()
+                    isLoading = false
+                }
             },
             enabled = !isLoading,
         ) {
@@ -62,3 +67,9 @@ fun MainThreadScreen(modifier: Modifier = Modifier) {
         }
     }
 }
+
+suspend fun fetchDataFromNetwork(): String =
+    withContext(Dispatchers.IO) {
+        delay(5000)
+        "Dados recebidos com sucesso!"
+    }
