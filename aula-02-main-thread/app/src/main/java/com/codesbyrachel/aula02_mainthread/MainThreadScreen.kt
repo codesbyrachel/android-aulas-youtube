@@ -1,6 +1,5 @@
 package com.codesbyrachel.aula02_mainthread
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +17,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +29,7 @@ fun MainThreadScreen(modifier: Modifier = Modifier) {
 
     var status by remember { mutableStateOf("Aguardando...") }
     var isLoading by remember { mutableStateOf(false) }
-    val context = LocalContext.current
+
     val scope = rememberCoroutineScope()
 
     Column(
@@ -48,21 +46,15 @@ fun MainThreadScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(bottom = 24.dp),
         )
 
+        // Botão 1: Buscar dados
         Button(
             onClick = {
                 scope.launch {
                     status = "Buscando dados ..."
                     isLoading = true
 
-                    withContext(Dispatchers.IO) {
-                        delay(5000)
-                    }
-                    Toast
-                        .makeText(
-                            context,
-                            "Dados recebidos com sucesso!",
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                    val result = fetchDataFromNetwork()
+                    status = result
 
                     isLoading = false
                 }
@@ -71,6 +63,23 @@ fun MainThreadScreen(modifier: Modifier = Modifier) {
         ) {
             Text("Buscar Dados")
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = {
+                scope.launch {
+                    status = "Processando..."
+                    isLoading = true
+
+                    val result = processImage()
+                    status = result
+                    isLoading = false
+                }
+            },
+            enabled = !isLoading,
+        ) {
+            Text("Processar Imagem")
+        }
+
         Spacer(modifier = Modifier.height(32.dp))
 
         if (isLoading) {
@@ -78,3 +87,17 @@ fun MainThreadScreen(modifier: Modifier = Modifier) {
         }
     }
 }
+
+suspend fun fetchDataFromNetwork(): String =
+    withContext(Dispatchers.IO) {
+        // simula busca de dados na rede
+        delay(5000)
+        "Dados recebidos com sucesso!"
+    }
+
+suspend fun processImage(): String =
+    withContext(Dispatchers.IO) {
+        // simula processamento pesado de imagem
+        delay(4000)
+        "Processamento de imagem concluído!"
+    }
