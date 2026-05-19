@@ -9,7 +9,7 @@ Aprenda na prática por que travamentos acontecem no Android, como funciona a Ma
 
 ## 🎥 Assista no Youtube
 
-👉Assista a aula completa: 
+👉Assista a aula completa: https://youtu.be/3BZLqjizkPE
 
 ---
 
