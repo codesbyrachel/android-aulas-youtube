@@ -13,6 +13,11 @@ Aqui você encontra os códigos das aulas do YouTube organizados por aula.
 👉 Assista: https://youtu.be/u5UXKjP0DAo  
 👉 Código: branch `aula/01-ciclo-de-vida`
 
+### ▶️ Aula 02 — Main Thread
+
+👉 Assista: https://youtu.be/3BZLqjizkPE  
+👉 Código: branch `aula/02-main-thread`
+
 ---
 
 ### 🚀 Como navegar?
